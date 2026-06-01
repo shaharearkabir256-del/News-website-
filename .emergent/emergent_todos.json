@@ -1,34 +1,70 @@
 [
   {
-    "content": "Phase 2: Backend implementation (FastAPI + MongoDB)",
+    "content": "Phase 4: Get Emergent Google OAuth integration playbook",
     "status": "completed"
   },
   {
-    "content": "Phase 2: Seed 9 articles + opinions + videos data",
+    "content": "Phase 4: Backend — Auth (Emergent OAuth) + User model + Admin role detection",
     "status": "completed"
   },
   {
-    "content": "Phase 2: Frontend foundation (App.js, CSS variables, theme context, routing)",
+    "content": "Phase 4: Backend — Newsletter subscribers collection + endpoints",
     "status": "completed"
   },
   {
-    "content": "Phase 2: Build all homepage components (TopBar, Header, BreakingTicker, Hero, CategoryTabs, ArticleCard, TrendingSidebar, OpinionSection, VideoSection, Newsletter, Footer)",
+    "content": "Phase 4: Backend — Bookmarks collection + endpoints (toggle, list)",
     "status": "completed"
   },
   {
-    "content": "Phase 2: Build Category, Article Detail (+ comments), Search, Admin pages",
+    "content": "Phase 4: Backend — Comment moderation (is_hidden flag + admin endpoints)",
     "status": "completed"
   },
   {
-    "content": "Phase 2: Verify all user stories covered + dark mode + responsiveness",
+    "content": "Phase 4: Backend — Related stories endpoint",
     "status": "completed"
   },
   {
-    "content": "Phase 3: End-to-end testing using testing_agent_v3 — 17/17 backend + all frontend flows passed",
+    "content": "Phase 4: Backend — Image upload endpoint with Pillow WebP compression (800px, q=75)",
     "status": "completed"
   },
   {
-    "content": "Phase 3: Fix any issues found by testing agent — zero critical or minor bugs reported",
+    "content": "Phase 4: Frontend — Auth context + Login/Profile/Sign-out UI + AuthCallback",
     "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — Admin route guard (admin only)",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — Bookmarks (heart icon on cards/article + /bookmarks page)",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — Newsletter signup hits real backend",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — Related stories block on Article page",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — Comment polling every 7s + admin moderation panel /admin/comments",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — Image upload widget in Admin article form",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: Frontend — SEO (react-helmet-async): dynamic title, OG, Twitter, JSON-LD NewsArticle",
+    "status": "completed"
+  },
+  {
+    "content": "Phase 4: End-to-end testing with testing_agent_v3",
+    "status": "in_progress"
+  },
+  {
+    "content": "Phase 4: Fix issues from testing",
+    "status": "pending"
   }
 ]

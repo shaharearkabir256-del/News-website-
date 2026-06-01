@@ -5,6 +5,7 @@ import ArticleCard from "@/components/ArticleCard";
 import TrendingSidebar from "@/components/TrendingSidebar";
 import { articlesApi } from "@/api";
 import { CATEGORY_NAMES } from "@/lib/utils";
+import { SiteSEO } from "@/components/SEO";
 
 export default function CategoryPage() {
   const { slug } = useParams();
@@ -35,6 +36,10 @@ export default function CategoryPage() {
 
   return (
     <>
+      <SiteSEO
+        title={name}
+        description={`The latest ${name} stories from The Chronicle.`}
+      />
       <div className="category-page-header" data-testid="category-page-header">
         <div className="container">
           <div className="category-page-header__label">Section</div>

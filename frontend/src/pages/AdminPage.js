@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { articlesApi } from "@/api";
+import { articlesApi, resolveImageUrl } from "@/api";
 import { CategoryBadge, TagBadge } from "@/components/Badge";
 import { formatDate } from "@/lib/utils";
+import { SiteSEO } from "@/components/SEO";
+import ImageUploader from "@/components/ImageUploader";
+import { Link } from "react-router-dom";
 
 const CATEGORIES = ["world", "politics", "business", "technology", "science", "culture", "sports"];
 const TAGS = ["breaking", "live", "exclusive", "analysis", "opinion", "sponsored"];
@@ -177,12 +180,16 @@ export default function AdminPage() {
 
   return (
     <div className="container admin-page" data-testid="admin-page">
+      <SiteSEO title="Editorial Console" noindex />
       <div className="admin-header">
         <div>
           <h1 className="admin-header__title">Editorial Console</h1>
           <div className="admin-header__subtitle">Manage The Chronicle's published stories.</div>
         </div>
-        <div style={{ display: "flex", gap: 12 }}>
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <Link to="/admin/comments" className="btn btn-secondary" data-testid="link-admin-comments">
+            Moderate Comments
+          </Link>
           <button className="btn btn-secondary" onClick={handleReseed} data-testid="admin-reseed">
             Reseed Demo Data
           </button>
@@ -329,23 +336,11 @@ export default function AdminPage() {
 
           <div className="admin-form__row">
             <div className="admin-form__field admin-form__field--full">
-              <label className="admin-form__label">Image URL *</label>
-              <input
-                className="admin-form__input"
+              <label className="admin-form__label">Image *</label>
+              <ImageUploader
                 value={draft.image_url}
-                onChange={(e) => updateField("image_url", e.target.value)}
-                placeholder="https://images.unsplash.com/..."
-                data-testid="admin-image-url"
-                required
+                onChange={(url) => updateField("image_url", url)}
               />
-              {draft.image_url && (
-                <img
-                  src={draft.image_url}
-                  alt="Preview"
-                  style={{ marginTop: 8, maxHeight: 160, borderRadius: 4, objectFit: "cover" }}
-                  onError={(e) => { e.target.style.display = "none"; }}
-                />
-              )}
             </div>
           </div>
 

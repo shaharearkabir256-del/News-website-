@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import { IconSearch, IconMenu, IconClose } from "@/components/Icons";
+import { IconSearch, IconMenu, IconClose, IconUser } from "@/components/Icons";
+import { useAuth } from "@/context/AuthContext";
+import UserMenu from "@/components/UserMenu";
 
 const NAV_LINKS = [
   { to: "/category/world", label: "World" },
@@ -16,9 +18,12 @@ export default function Header() {
   const [shrunk, setShrunk] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, login } = useAuth();
+  const menuRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setShrunk(window.scrollY > 80);
@@ -29,7 +34,18 @@ export default function Header() {
   useEffect(() => {
     setDrawer(false);
     setSearchOpen(false);
+    setMenuOpen(false);
   }, [location.pathname]);
+
+  // Click-outside to close dropdown
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [menuOpen]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -38,6 +54,15 @@ export default function Header() {
     navigate(`/search?q=${encodeURIComponent(q)}`);
     setSearchOpen(false);
   };
+
+  const initials = user
+    ? (user.name || user.email)
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((p) => p[0]?.toUpperCase())
+        .join("")
+    : "";
 
   return (
     <>
@@ -72,7 +97,35 @@ export default function Header() {
             >
               <IconSearch />
             </button>
-            <Link to="/admin" className="header__nav-link" data-testid="admin-link" style={{ marginRight: 4 }}>Admin</Link>
+
+            {user ? (
+              <div className="header__user-wrap" ref={menuRef}>
+                <button
+                  className="header__avatar-btn"
+                  onClick={() => setMenuOpen((m) => !m)}
+                  aria-haspopup="menu"
+                  aria-expanded={menuOpen}
+                  data-testid="user-avatar-btn"
+                  title={user.name}
+                >
+                  {user.picture ? (
+                    <img src={user.picture} alt="" />
+                  ) : (
+                    <span className="header__avatar-initials">{initials || "?"}</span>
+                  )}
+                </button>
+                {menuOpen && <UserMenu onClose={() => setMenuOpen(false)} />}
+              </div>
+            ) : (
+              <button
+                className="header__signin"
+                onClick={login}
+                data-testid="signin-btn"
+              >
+                <IconUser size={14} /> Sign in
+              </button>
+            )}
+
             <a href="#subscribe" className="header__subscribe-pill" data-testid="subscribe-pill">Subscribe</a>
             <button
               className="hamburger-menu"
@@ -141,9 +194,35 @@ export default function Header() {
           <Link to="/search" className="mobile-drawer__link" onClick={() => setDrawer(false)}>
             Search
           </Link>
-          <Link to="/admin" className="mobile-drawer__link" onClick={() => setDrawer(false)}>
-            Admin
-          </Link>
+          {user && (
+            <>
+              <Link to="/profile" className="mobile-drawer__link" onClick={() => setDrawer(false)}>
+                Profile
+              </Link>
+              <Link to="/bookmarks" className="mobile-drawer__link" onClick={() => setDrawer(false)}>
+                Bookmarks
+              </Link>
+            </>
+          )}
+          {user?.is_admin && (
+            <>
+              <Link to="/admin" className="mobile-drawer__link" onClick={() => setDrawer(false)}>
+                Admin Console
+              </Link>
+              <Link to="/admin/comments" className="mobile-drawer__link" onClick={() => setDrawer(false)}>
+                Moderate Comments
+              </Link>
+            </>
+          )}
+          {!user && (
+            <button
+              className="mobile-drawer__link"
+              style={{ textAlign: "left", background: "none", border: "none", borderBottom: "1px solid var(--color-border-default)", padding: "12px 0", cursor: "pointer", fontFamily: "inherit", fontSize: "inherit", textTransform: "uppercase", letterSpacing: "var(--letter-spacing-badge)" }}
+              onClick={() => { setDrawer(false); login(); }}
+            >
+              Sign in
+            </button>
+          )}
         </nav>
       </aside>
     </>

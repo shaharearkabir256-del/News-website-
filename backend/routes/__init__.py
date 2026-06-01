@@ -1,0 +1,3 @@
+"""
+Make routes/ a package.
+"""

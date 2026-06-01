@@ -2,14 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { CategoryBadge, TagBadge } from "@/components/Badge";
 import { timeAgo } from "@/lib/utils";
+import { resolveImageUrl } from "@/api";
 import { IconClock } from "@/components/Icons";
+import BookmarkButton from "@/components/BookmarkButton";
 
 export default function ArticleCard({ article }) {
   if (!article) return null;
   return (
     <Link to={`/article/${article.slug}`} className="article-card" data-testid={`article-card-${article.slug}`}>
       <div className="article-card__image">
-        <img src={article.image_url} alt={article.title} loading="lazy" />
+        <img src={resolveImageUrl(article.image_url)} alt={article.title} loading="lazy" />
+        <div className="article-card__bookmark">
+          <BookmarkButton slug={article.slug} size={18} />
+        </div>
       </div>
       <div className="article-card__body">
         <div className="article-card__badges">
@@ -22,7 +27,7 @@ export default function ArticleCard({ article }) {
         <p className="article-card__summary">{article.summary}</p>
         <div className="article-card__footer">
           {article.author_avatar ? (
-            <img className="article-card__avatar" src={article.author_avatar} alt={article.author_name} />
+            <img className="article-card__avatar" src={resolveImageUrl(article.author_avatar)} alt={article.author_name} />
           ) : (
             <div className="article-card__avatar" />
           )}

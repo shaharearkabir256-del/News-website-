@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IconArrow } from "@/components/Icons";
+import { resolveImageUrl } from "@/api";
 
 export default function OpinionSection({ articles = [] }) {
   if (!articles || articles.length === 0) return null;
@@ -26,7 +27,7 @@ export default function OpinionSection({ articles = [] }) {
               </p>
               <div className="opinion-card__author">
                 {a.author_avatar ? (
-                  <img className="opinion-card__author-avatar" src={a.author_avatar} alt={a.author_name} />
+                  <img className="opinion-card__author-avatar" src={resolveImageUrl(a.author_avatar)} alt={a.author_name} />
                 ) : (
                   <div className="opinion-card__author-avatar" />
                 )}

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { CategoryBadge, TagBadge } from "@/components/Badge";
 import { timeAgo, formatViews } from "@/lib/utils";
+import { resolveImageUrl } from "@/api";
 import { IconClock, IconEye } from "@/components/Icons";
 
 export default function Hero({ articles = [] }) {
@@ -38,7 +39,7 @@ export default function Hero({ articles = [] }) {
         <div className="hero__grid">
           <Link to={`/article/${featured.slug}`} className="hero__featured" data-testid="hero-featured">
             <img
-              src={featured.image_url}
+              src={resolveImageUrl(featured.image_url)}
               alt={featured.title}
               className="hero__featured-image"
               loading="eager"
@@ -73,7 +74,7 @@ export default function Hero({ articles = [] }) {
             {secondary.map((a) => (
               <Link to={`/article/${a.slug}`} className="hero__secondary-item" key={a.id} data-testid={`hero-secondary-${a.slug}`}>
                 <div className="hero__secondary-image">
-                  <img src={a.image_url} alt={a.title} loading="lazy" />
+                  <img src={resolveImageUrl(a.image_url)} alt={a.title} loading="lazy" />
                 </div>
                 <div className="hero__secondary-content">
                   <div className="hero__secondary-badges">

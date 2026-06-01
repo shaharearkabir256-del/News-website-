@@ -7,6 +7,7 @@ import TrendingSidebar from "@/components/TrendingSidebar";
 import OpinionSection from "@/components/OpinionSection";
 import VideoSection from "@/components/VideoSection";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import { SiteSEO } from "@/components/SEO";
 import { articlesApi } from "@/api";
 
 export default function HomePage() {
@@ -52,15 +53,15 @@ export default function HomePage() {
   };
 
   const gridArticles = useMemo(() => {
-    // Exclude opinion + video + the very top featured story to avoid duplicating the hero.
-    const heroIds = new Set((featured[0] ? [featured[0].id] : []));
-    return all.filter(
-      (a) => !a.is_opinion && !a.is_video && !heroIds.has(a.id)
-    );
+    const heroIds = new Set(featured[0] ? [featured[0].id] : []);
+    return all.filter((a) => !a.is_opinion && !a.is_video && !heroIds.has(a.id));
   }, [all, featured]);
+
+  const heroImage = featured[0]?.image_url;
 
   return (
     <>
+      <SiteSEO image={heroImage} />
       <Hero articles={featured} />
       <CategoryTabs active={active} onChange={handleCategoryChange} />
 

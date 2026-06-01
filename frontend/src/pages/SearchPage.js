@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import ArticleCard from "@/components/ArticleCard";
 import { articlesApi } from "@/api";
+import { SiteSEO } from "@/components/SEO";
 
 export default function SearchPage() {
   const [params, setParams] = useSearchParams();
@@ -36,6 +37,7 @@ export default function SearchPage() {
 
   return (
     <>
+      <SiteSEO title={q ? `Search: ${q}` : "Search"} noindex />
       <section className="search-hero">
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: 24 }}>
